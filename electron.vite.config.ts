@@ -9,6 +9,11 @@ export default defineConfig({
       lib: { entry: path.join(__dirname, "/src/electron/main.ts") },
       outDir: "dist/electron",
     },
+    resolve: {
+      alias: {
+        "@/electron": resolve("src/electron"),
+      },
+    },
   },
   preload: {
     plugins: [externalizeDepsPlugin()],
@@ -19,7 +24,7 @@ export default defineConfig({
   renderer: {
     resolve: {
       alias: {
-        "@renderer": resolve("src/renderer/src"),
+        "@/renderer": resolve("src/renderer/src"),
       },
     },
     plugins: [vue()],

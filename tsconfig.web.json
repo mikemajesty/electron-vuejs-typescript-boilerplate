@@ -10,8 +10,12 @@
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",
+    "lib": [
+      "es2016",
+      "dom"
+    ],
     "paths": {
-      "@renderer/*": [
+      "@/renderer/*": [
         "src/renderer/src/*"
       ]
     }

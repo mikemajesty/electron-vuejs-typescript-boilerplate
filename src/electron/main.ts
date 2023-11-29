@@ -1,4 +1,11 @@
-import { app, shell, BrowserWindow } from "electron";
+import {
+  app,
+  shell,
+  BrowserWindow,
+  ipcMain,
+  IpcMainEvent,
+  Notification,
+} from "electron";
 import path, { join } from "path";
 import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 
@@ -54,6 +61,14 @@ app.whenReady().then(() => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+
+  ipcMain.on("insert", (event: IpcMainEvent, input): void => {
+    console.log("OLA", input);
+    new Notification({
+      title: "Produto criado",
+      body: `Produto: ${input.name} criado com sucesso. EITA`,
+    }).show();
   });
 });
 
