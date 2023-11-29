@@ -1,9 +1,11 @@
 <script lang="ts">
+import { AppWindow } from "../types";
 import { reactive } from "vue";
 
 const versions = reactive({
-  ...(window as Window).electron.process.versions,
+  ...AppWindow.electron.process.versions,
 });
+
 export default {
   data() {
     return { versions };

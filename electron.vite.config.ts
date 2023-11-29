@@ -6,7 +6,7 @@ export default defineConfig({
   main: {
     plugins: [externalizeDepsPlugin()],
     build: {
-      lib: { entry: path.join(__dirname, "/src/electron/index.ts") },
+      lib: { entry: path.join(__dirname, "/src/electron/main.ts") },
       outDir: "dist/electron",
     },
   },
