@@ -6,6 +6,6 @@
   "eslint.validate": ["javascript", "typescript"],
   "files.exclude": {
       "**/node_modules": true,
-      "**/dist": true
+      "**/dist": false
   }
 }

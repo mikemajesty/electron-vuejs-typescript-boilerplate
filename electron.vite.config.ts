@@ -1,4 +1,4 @@
-import { resolve } from "path";
+import path, { resolve } from "path";
 import { defineConfig, externalizeDepsPlugin } from "electron-vite";
 import vue from "@vitejs/plugin-vue";
 
@@ -6,7 +6,8 @@ export default defineConfig({
   main: {
     plugins: [externalizeDepsPlugin()],
     build: {
-      outDir: "dist/main",
+      lib: { entry: path.join(__dirname, "/src/electron/index.ts") },
+      outDir: "dist/electron",
     },
   },
   preload: {
