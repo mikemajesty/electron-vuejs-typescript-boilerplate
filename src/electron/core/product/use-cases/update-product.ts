@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { ProductEntity, ProductEntitySchema } from "../entity/product";
-import { ProductRepository } from "@/electron/modules/product/repository";
+import { IProductRepository } from "../repository/product";
 
 export const ProductUpdateSchema = ProductEntitySchema.pick({ id: true })
   .merge(
@@ -16,7 +16,7 @@ export type ProductUpdateInput = z.infer<typeof ProductUpdateSchema>;
 export type ProductUpdateOutput = ProductEntity | null;
 
 export class ProductUpdateUsecase {
-  constructor(private readonly productRepository: ProductRepository) {}
+  constructor(private readonly productRepository: IProductRepository) {}
 
   async execute(input: ProductUpdateInput): Promise<ProductUpdateOutput> {
     const finded = await this.productRepository.findOne({

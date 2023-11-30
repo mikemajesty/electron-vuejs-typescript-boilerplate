@@ -1,12 +1,13 @@
 <script lang="ts">
 import { AppWindow } from "../../types";
+
 export default {
   name: "CreateProduct",
   data() {
     return {
-      name: "",
-      description: "",
-      price: "",
+      name: undefined,
+      description: undefined,
+      price: undefined,
     };
   },
   methods: {

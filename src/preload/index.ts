@@ -1,6 +1,7 @@
-import { contextBridge } from "electron";
+import { MessageBoxSyncOptions, contextBridge, dialog } from "electron";
 import { electronAPI } from "@electron-toolkit/preload";
 import { version } from "../../package.json";
+
 const api = {};
 
 if (process.contextIsolated) {

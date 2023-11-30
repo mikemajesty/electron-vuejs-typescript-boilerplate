@@ -1,11 +1,12 @@
 import { Knex } from "knex";
+import { IRepository } from "./adapter";
 
 export type RepositoryLoadType = {
   tableName: string;
   instance: Knex;
 };
 
-export class Repository<T> {
+export class Repository<T> implements IRepository<T> {
   constructor(private readonly parameters: RepositoryLoadType) {}
 
   async create(model: Partial<T>): Promise<T | null> {

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { ProductEntity, ProductEntitySchema } from "../entity/product";
-import { ProductRepository } from "@/electron/modules/product/repository";
+import { IProductRepository } from "../repository/product";
 
 export const ProductDeleteSchema = ProductEntitySchema.pick({ id: true });
 
@@ -8,7 +8,7 @@ export type ProductDeleteInput = z.infer<typeof ProductDeleteSchema>;
 export type ProductDeleteOutput = ProductEntity;
 
 export class ProductDeleteUsecase {
-  constructor(private readonly productRepository: ProductRepository) {}
+  constructor(private readonly productRepository: IProductRepository) {}
 
   async execute({ id }: ProductDeleteInput): Promise<ProductDeleteOutput> {
     const finded = await this.productRepository.findOne({ id });

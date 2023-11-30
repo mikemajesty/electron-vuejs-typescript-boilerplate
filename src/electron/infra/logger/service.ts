@@ -1,8 +1,9 @@
-import pino, { Logger } from "pino";
+import pino, { Logger as LoggerPino } from "pino";
 import { DateUtils } from "@/electron/utils/date";
+import { ILoggerService } from "./adapter";
 
-class LoggerService {
-  private logger: Logger;
+export class Logger implements ILoggerService {
+  private logger: LoggerPino;
 
   constructor() {
     this.logger = pino({
@@ -30,10 +31,6 @@ class LoggerService {
     this.logger.warn([obj, message].find(Boolean), message);
   }
 }
-
-const Logger = new LoggerService();
-
-export { Logger };
 
 export type MessageType = {
   message: string;

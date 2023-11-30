@@ -1,10 +1,19 @@
-import { app, shell, BrowserWindow, ipcMain } from "electron";
+import {
+  app,
+  shell,
+  BrowserWindow,
+  ipcMain,
+  IpcMainEvent,
+  dialog,
+} from "electron";
 import path, { join } from "path";
 import { electronApp, optimizer } from "@electron-toolkit/utils";
-import { SecretService } from "./infra/secrets/service";
+import { SecretService } from "./infra/secrets";
 import { DataBase } from "./infra/database";
 import { ProductController } from "./modules/product/controler";
 import { ProductRepository } from "./modules/product/repository";
+import { ProductCreateInput } from "./core/product/use-cases/create-product";
+import { ZodIssue } from "zod";
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -30,10 +39,22 @@ function createWindow(): void {
 
   if (SecretService.isDev && SecretService.ELECTRON_RENDERER_URL) {
     mainWindow.loadURL(SecretService.ELECTRON_RENDERER_URL);
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
   } else {
     mainWindow.loadFile(join(__dirname, "../renderer/index.html"));
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  process.on("unhandledRejection", (exception: any) => {
+    if (exception?.errors && exception?.issues) {
+      const error = exception.issues
+        .map((i: ZodIssue) => `${i.path}: ${i.message}`)
+        .join(",\n");
+      dialog.showErrorBox("Erro de validação.", error);
+      return;
+    }
+    dialog.showErrorBox("Error inesperado.", exception?.message || exception);
+  });
 }
 
 app.whenReady().then(async () => {
@@ -48,8 +69,17 @@ app.whenReady().then(async () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 
-  const productController = new ProductController(new ProductRepository());
-  ipcMain.on("createProduct", productController.create);
+  const productController = new ProductController();
+
+  ipcMain.on(
+    "createProduct",
+    (event: IpcMainEvent, input: ProductCreateInput) => {
+      return productController.create(
+        { ...event, repository: new ProductRepository() },
+        input,
+      );
+    },
+  );
 
   const connection = DataBase.instance;
 

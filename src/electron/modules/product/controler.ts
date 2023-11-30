@@ -1,4 +1,4 @@
-import { IpcMainEvent, Notification } from "electron";
+import { Notification } from "electron";
 import {
   ProductDeleteInput,
   ProductDeleteOutput,
@@ -19,19 +19,14 @@ import {
   ProductCreateOutput,
   ProductCreateUsecase,
 } from "@/electron/core/product/use-cases/create-product";
-import { ProductRepository } from "./repository";
-
-// const repository: ProductRepository = new ProductRepository();
+import { ElectronMainEventType } from "@/electron/utils/electron";
 
 export class ProductController {
-  constructor(private readonly repository: ProductRepository) {}
-
   async create(
-    _event: IpcMainEvent,
+    event: ElectronMainEventType,
     input: ProductCreateInput,
   ): Promise<ProductCreateOutput> {
-    console.log("------------------");
-    const createUsecase = new ProductCreateUsecase(this.repository);
+    const createUsecase = new ProductCreateUsecase(event.repository);
     const response = await createUsecase.execute(input);
     new Notification({
       title: "Product Created",
@@ -41,10 +36,10 @@ export class ProductController {
   }
 
   async delete(
-    _event: IpcMainEvent,
+    event: ElectronMainEventType,
     input: ProductDeleteInput,
   ): Promise<ProductDeleteOutput> {
-    const response = await new ProductDeleteUsecase(this.repository).execute(
+    const response = await new ProductDeleteUsecase(event.repository).execute(
       input,
     );
     new Notification({
@@ -55,10 +50,10 @@ export class ProductController {
   }
 
   async update(
-    _event: IpcMainEvent,
+    event: ElectronMainEventType,
     input: ProductUpdateInput,
   ): Promise<ProductUpdateOutput> {
-    const response = await new ProductUpdateUsecase(this.repository).execute(
+    const response = await new ProductUpdateUsecase(event.repository).execute(
       input,
     );
     new Notification({
@@ -69,15 +64,12 @@ export class ProductController {
   }
 
   async list(
-    _event: IpcMainEvent,
+    event: ElectronMainEventType,
     input: ProductListInput,
   ): Promise<ProductListOutput> {
-    const response = await new ProductListUsecase(this.repository).execute(
+    const response = await new ProductListUsecase(event.repository).execute(
       input,
     );
     return response;
   }
 }
-
-// const ProductController = new Controller();
-// export { ProductController };
