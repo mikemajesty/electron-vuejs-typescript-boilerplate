@@ -20,6 +20,11 @@ export default defineConfig({
     build: {
       outDir: "dist/preload",
     },
+    resolve: {
+      alias: {
+        "@/electron": resolve("src/electron"),
+      },
+    },
   },
   renderer: {
     resolve: {

@@ -11,8 +11,12 @@ export default {
     return { versions };
   },
   methods: {
-    createProduct(_e: Event) {
-      window.electron.ipcRenderer.send("insert", { name: "MIKE" });
+    createProduct() {
+      AppWindow.electron.ipcRenderer.send("insert", {
+        name: "must to save",
+        price: 10,
+        description: "ola mundo",
+      });
     },
   },
 };
