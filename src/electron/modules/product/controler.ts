@@ -21,14 +21,17 @@ import {
 } from "@/electron/core/product/use-cases/create-product";
 import { ProductRepository } from "./repository";
 
-const repository: ProductRepository = new ProductRepository();
+// const repository: ProductRepository = new ProductRepository();
 
-class Controller {
+export class ProductController {
+  constructor(private readonly repository: ProductRepository) {}
+
   async create(
     _event: IpcMainEvent,
     input: ProductCreateInput,
   ): Promise<ProductCreateOutput> {
-    const createUsecase = new ProductCreateUsecase(repository);
+    console.log("------------------");
+    const createUsecase = new ProductCreateUsecase(this.repository);
     const response = await createUsecase.execute(input);
     new Notification({
       title: "Product Created",
@@ -41,7 +44,9 @@ class Controller {
     _event: IpcMainEvent,
     input: ProductDeleteInput,
   ): Promise<ProductDeleteOutput> {
-    const response = await new ProductDeleteUsecase(repository).execute(input);
+    const response = await new ProductDeleteUsecase(this.repository).execute(
+      input,
+    );
     new Notification({
       title: "Product Deleted",
       body: `Produto ${response.name}: deletado com sucesso.`,
@@ -53,7 +58,9 @@ class Controller {
     _event: IpcMainEvent,
     input: ProductUpdateInput,
   ): Promise<ProductUpdateOutput> {
-    const response = await new ProductUpdateUsecase(repository).execute(input);
+    const response = await new ProductUpdateUsecase(this.repository).execute(
+      input,
+    );
     new Notification({
       title: "Product Updated",
       body: `Produto ${response?.name}: alterado com sucesso.`,
@@ -65,10 +72,12 @@ class Controller {
     _event: IpcMainEvent,
     input: ProductListInput,
   ): Promise<ProductListOutput> {
-    const response = await new ProductListUsecase(repository).execute(input);
+    const response = await new ProductListUsecase(this.repository).execute(
+      input,
+    );
     return response;
   }
 }
 
-const ProductController = new Controller();
-export { ProductController };
+// const ProductController = new Controller();
+// export { ProductController };

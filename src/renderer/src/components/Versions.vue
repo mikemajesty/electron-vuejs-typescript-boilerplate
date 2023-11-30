@@ -30,11 +30,4 @@ export default {
     <li class="node-version">Node v{{ versions.node }}</li>
     <li class="v8-version">V8 v{{ versions.v8 }}</li>
   </ul>
-  <button @click="createProduct">MIKE</button>
 </template>
-
-<style scoped>
-.versions {
-  padding-top: 5%;
-}
-</style>

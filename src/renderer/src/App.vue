@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import Versions from "./components/Versions.vue";
+import CreateProduct from "./components/product/Create.vue";
 </script>
 
 <template>
+  <CreateProduct></CreateProduct>
   <Versions></Versions>
 
-  <h2 class="hero-text">
+  <!-- <h2 class="hero-text">
     You've successfully created an Electron project with Vue and TypeScript
   </h2>
   <p class="hero-tagline">
@@ -109,7 +111,7 @@ import Versions from "./components/Versions.vue";
         </p>
       </article>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <style lang="less">

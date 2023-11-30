@@ -4,6 +4,7 @@ import { electronApp, optimizer } from "@electron-toolkit/utils";
 import { SecretService } from "./infra/secrets/service";
 import { DataBase } from "./infra/database";
 import { ProductController } from "./modules/product/controler";
+import { ProductRepository } from "./modules/product/repository";
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -12,6 +13,7 @@ function createWindow(): void {
     autoHideMenuBar: true,
     icon: path.join(__dirname, "../../resources/icon.png"),
     webPreferences: {
+      nodeIntegration: true,
       preload: join(__dirname, "../preload/index.js"),
       sandbox: false,
     },
@@ -46,7 +48,8 @@ app.whenReady().then(async () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 
-  ipcMain.on("insert", ProductController.create);
+  const productController = new ProductController(new ProductRepository());
+  ipcMain.on("createProduct", productController.create);
 
   const connection = DataBase.instance;
 

@@ -18,4 +18,6 @@ if (process.contextIsolated) {
   window.appVersion = version;
   // @ts-ignore (define in dts)
   window.api = api;
+
+  window.global = window;
 }

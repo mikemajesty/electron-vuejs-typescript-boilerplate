@@ -5,6 +5,10 @@
     "esModuleInterop": true,
     "composite": true,
     "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "Node16",
+    "downlevelIteration": true,
     "types": ["electron-vite/node.d.ts"],
     "paths": {
       "@/electron/*": ["./src/electron/*"]
