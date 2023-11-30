@@ -7,9 +7,8 @@ import { ProductController } from "./modules/product/controler";
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
-    width: 900,
+    width: 1100,
     height: 670,
-    show: false,
     autoHideMenuBar: true,
     icon: path.join(__dirname, "../../resources/icon.png"),
     webPreferences: {
@@ -29,6 +28,7 @@ function createWindow(): void {
 
   if (SecretService.isDev && SecretService.ELECTRON_RENDERER_URL) {
     mainWindow.loadURL(SecretService.ELECTRON_RENDERER_URL);
+    mainWindow.webContents.openDevTools();
   } else {
     mainWindow.loadFile(join(__dirname, "../renderer/index.html"));
   }

@@ -8,7 +8,7 @@ const versions = reactive({
 
 export default {
   data() {
-    return { versions };
+    return { versions, appVersion: AppWindow.appVersion };
   },
   methods: {
     createProduct() {
@@ -24,6 +24,7 @@ export default {
 
 <template>
   <ul class="versions">
+    <li class="app-version">App v{{ appVersion }}</li>
     <li class="electron-version">Electron v{{ versions.electron }}</li>
     <li class="chrome-version">Chromium v{{ versions.chrome }}</li>
     <li class="node-version">Node v{{ versions.node }}</li>

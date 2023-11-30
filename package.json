@@ -32,7 +32,6 @@
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.6",
     "tsconfig-paths": "^4.2.0",
-    "tscpaths": "^0.0.9",
     "typescript": "^5.2.2",
     "uuid": "^9.0.1",
     "vue": "^3.3.8",
