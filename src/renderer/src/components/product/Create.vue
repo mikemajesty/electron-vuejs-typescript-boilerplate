@@ -1,12 +1,17 @@
 <script lang="ts">
 import { AppWindow } from "../../types";
+import CurrencyInput from "../input/Currency.vue";
+
 export default {
   name: "CreateProduct",
+  components: {
+    CurrencyInput,
+  },
   data() {
     return {
-      name: undefined,
-      description: undefined,
-      price: undefined,
+      name: "",
+      description: "",
+      price: 0,
     };
   },
   methods: {
@@ -34,6 +39,7 @@ export default {
                 id="productName"
                 v-model="name"
                 class="input"
+                :min="0"
                 type="text"
                 placeholder="Nome do Produto"
               />
@@ -44,13 +50,11 @@ export default {
           <div class="field">
             <label class="label">Preço</label>
             <div class="control">
-              <input
-                id="productPrice"
+              <CurrencyInput
                 v-model="price"
                 class="input"
-                type="number"
-                placeholder="Preço do Produto"
-              />
+                :options="{ currency: 'BRL' }"
+              ></CurrencyInput>
             </div>
           </div>
         </div>

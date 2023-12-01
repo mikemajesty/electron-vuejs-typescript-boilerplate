@@ -36,6 +36,7 @@
     "typescript": "^5.2.2",
     "uuid": "^9.0.1",
     "vue": "^3.3.8",
+    "vue-currency-input": "^3.0.5",
     "zod": "^3.22.4",
     "zod-i18n-map": "^2.21.0"
   },
