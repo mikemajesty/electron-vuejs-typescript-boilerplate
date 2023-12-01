@@ -1,6 +1,5 @@
 <script lang="ts">
 import { AppWindow } from "../../types";
-
 export default {
   name: "CreateProduct",
   data() {
@@ -89,4 +88,11 @@ export default {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.createProduct {
+  padding-left: 1%;
+  padding-right: 1%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+</style>

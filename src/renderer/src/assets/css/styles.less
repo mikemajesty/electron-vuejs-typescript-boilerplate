@@ -1,6 +1,11 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
 
+html {
+  height: -webkit-fill-available !important;
+}
+
 body {
+  height: inherit;
   display: flex;
   flex-direction: column;
   font-family:
@@ -56,32 +61,25 @@ a:hover {
 }
 
 #app {
+  width: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;
-  max-width: 95%;
+  max-width: 100%;
   margin: 0 auto;
 }
 
 .versions {
-  padding-top: 1%;
-  margin: 0 auto;
-  float: none;
-  clear: both;
-  overflow: hidden;
+  padding-bottom: 0.5rem;
   font-family: 'Menlo', 'Lucida Console', monospace;
   color: #c2f5ff;
   line-height: 1;
   transition: all 0.3s;
 
   li {
-    display: block;
-    float: left;
     border-right: 1px solid rgba(194, 245, 255, 0.4);
-    padding: 0 20px;
     font-size: 13px;
     opacity: 0.8;
-
     &:last-child {
       border: none;
     }

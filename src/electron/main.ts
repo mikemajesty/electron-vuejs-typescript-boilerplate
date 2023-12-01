@@ -69,23 +69,13 @@ app.whenReady().then(async () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 
-  const productController = new ProductController();
-
-  ipcMain.on(
-    "createProduct",
-    (event: IpcMainEvent, input: ProductCreateInput) => {
-      return productController.create(
-        { ...event, repository: new ProductRepository() },
-        input,
-      );
-    },
-  );
-
   const connection = DataBase.instance;
 
   await connection.raw(
     "CREATE TABLE IF NOT EXISTS products (id TEXT PRIMARY KEY, name TEXT, description TEXT, price REAL, createdAt DATE, updatedAt DATE, deletedAt DATE);",
   );
+
+  registerProductEvents();
 });
 
 app.on("window-all-closed", () => {
@@ -93,3 +83,16 @@ app.on("window-all-closed", () => {
     app.quit();
   }
 });
+
+const registerProductEvents = () => {
+  const productController = new ProductController();
+  ipcMain.on(
+    "createProduct",
+    (event: IpcMainEvent, input: ProductCreateInput) => {
+      return productController.create(
+        { ...event, infra: { repository: new ProductRepository() } },
+        input,
+      );
+    },
+  );
+};
