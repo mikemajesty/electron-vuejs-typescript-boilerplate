@@ -14,6 +14,20 @@ import { ProductController } from "./modules/product/controler";
 import { ProductRepository } from "./modules/product/repository";
 import { ProductCreateInput } from "./core/product/use-cases/create-product";
 import { ZodIssue } from "zod";
+import i18next from "i18next";
+import { z } from "zod";
+import { zodI18nMap } from "zod-i18n-map";
+import translation from "zod-i18n-map/locales/pt/zod.json";
+import { TranslationUtils } from "./utils/translation";
+
+i18next.init({
+  lng: "pt",
+  resources: {
+    pt: { zod: translation },
+  },
+});
+
+z.setErrorMap(zodI18nMap);
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -48,7 +62,10 @@ function createWindow(): void {
   process.on("unhandledRejection", (exception: any) => {
     if (exception?.errors && exception?.issues) {
       const error = exception.issues
-        .map((i: ZodIssue) => `${i.path}: ${i.message}`)
+        .map(
+          (i: ZodIssue) =>
+            `${TranslationUtils.getPropertyName(`${i.path}`)}: ${i.message}`,
+        )
         .join(",\n");
       dialog.showErrorBox("Erro de validação.", error);
       return;
