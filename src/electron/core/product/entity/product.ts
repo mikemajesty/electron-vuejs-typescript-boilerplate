@@ -10,7 +10,7 @@ const Name = z
   .min(1)
   .max(200)
   .transform(TextUtils.capitalizeFirstLetter);
-const Description = z.string().trim().min(1).max(200);
+const Description = z.string().trim().min(1).max(400);
 const Price = z.number().min(0.01);
 const CreatedAt = z.date().default(new Date());
 const UpdatedAt = z.date().default(new Date());
