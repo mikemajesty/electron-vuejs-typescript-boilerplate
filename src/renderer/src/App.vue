@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import Versions from "./components/footer/Versions.vue";
 import CreateProduct from "./components/product/Create.vue";
+import ListProduct from "./components/product/List.vue";
 import Menu from "./components/Menu.vue";
 </script>
 
 <template>
   <Menu></Menu>
-  <CreateProduct></CreateProduct>
+  <ListProduct></ListProduct>
   <Versions></Versions>
 
   <!-- <h2 class="hero-text">

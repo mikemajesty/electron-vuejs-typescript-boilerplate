@@ -5,6 +5,7 @@ import {
   ipcMain,
   IpcMainEvent,
   dialog,
+  IpcMainInvokeEvent,
 } from "electron";
 import path, { join } from "path";
 import { electronApp, optimizer } from "@electron-toolkit/utils";
@@ -19,6 +20,7 @@ import { z } from "zod";
 import { zodI18nMap } from "zod-i18n-map";
 import translation from "zod-i18n-map/locales/pt/zod.json";
 import { TranslationUtils } from "./utils/translation";
+import { SortEnum } from "./utils/sort";
 
 i18next.init({
   lng: "pt",
@@ -112,4 +114,11 @@ const registerProductEvents = () => {
       );
     },
   );
+
+  ipcMain.handle("listProduct", (event: IpcMainInvokeEvent) => {
+    return productController.list(
+      { ...event, infra: { repository: new ProductRepository() } },
+      { limit: 10, page: 1, sort: { createdAt: SortEnum.desc } },
+    );
+  });
 };

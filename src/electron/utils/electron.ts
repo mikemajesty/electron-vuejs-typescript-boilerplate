@@ -1,4 +1,4 @@
-import { IpcMainEvent } from "electron";
+import { IpcMainEvent, IpcMainInvokeEvent } from "electron";
 import { IRepository } from "../infra/repository";
 import { ILoggerService } from "../infra/logger/adapter";
 import { ISecretService } from "../infra/secrets/adapter";
@@ -11,5 +11,9 @@ type InfraType = {
 };
 
 export type ElectronMainEventType = IpcMainEvent & {
+  infra: Partial<InfraType>;
+};
+
+export type ElectronMainInvokeEventType = IpcMainInvokeEvent & {
   infra: Partial<InfraType>;
 };

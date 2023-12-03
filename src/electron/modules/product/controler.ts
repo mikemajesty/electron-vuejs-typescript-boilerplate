@@ -5,7 +5,6 @@ import {
   ProductDeleteUsecase,
 } from "@/electron/core/product/use-cases/delete-product";
 import {
-  ProductListInput,
   ProductListOutput,
   ProductListUsecase,
 } from "@/electron/core/product/use-cases/list-product";
@@ -19,8 +18,12 @@ import {
   ProductCreateOutput,
   ProductCreateUsecase,
 } from "@/electron/core/product/use-cases/create-product";
-import { ElectronMainEventType } from "@/electron/utils/electron";
+import {
+  ElectronMainEventType,
+  ElectronMainInvokeEventType,
+} from "@/electron/utils/electron";
 import { IProductRepository } from "@/electron/core/product/repository/product";
+import { PaginationInput } from "@/electron/utils/pagination";
 
 export class ProductController {
   async create(
@@ -67,8 +70,8 @@ export class ProductController {
   }
 
   async list(
-    event: ElectronMainEventType,
-    input: ProductListInput,
+    event: ElectronMainInvokeEventType,
+    input: PaginationInput,
   ): Promise<ProductListOutput> {
     const response = await new ProductListUsecase(
       event.infra.repository as IProductRepository,

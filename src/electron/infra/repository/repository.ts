@@ -7,7 +7,7 @@ export type RepositoryLoadType = {
 };
 
 export class Repository<T> implements IRepository<T> {
-  constructor(private readonly parameters: RepositoryLoadType) {}
+  constructor(readonly parameters: RepositoryLoadType) {}
 
   async create(model: Partial<T>): Promise<T | null> {
     const created = await this.parameters
