@@ -9,9 +9,13 @@ export default {
     return { products, pagination: {} };
   },
   async mounted() {
-    const prod = await AppWindow.electron.ipcRenderer.invoke("listProduct");
-    this.products = prod.data;
-    this.pagination = prod.pagination;
+    const products = await AppWindow.electron.ipcRenderer.invoke("listProduct");
+    this.products = products.docs;
+    this.pagination = {
+      page: products.page,
+      limit: products.limit,
+      total: products.total,
+    };
   },
   methods: {},
 };
@@ -20,7 +24,7 @@ export default {
 <template>
   <div class="listProduct">
     <h1 class="title is-1">Lista de Produtos</h1>
-    <h1 class="title is-1">{{ pagination }}</h1>
+    <div class="title is-5">{{ pagination }}</div>
     <div class="columns">
       <div class="column is-bordered">
         <table class="table is-bordered">

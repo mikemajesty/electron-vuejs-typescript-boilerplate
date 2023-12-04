@@ -1,8 +1,8 @@
 import { ProductEntity } from "../entity/product";
 import { IProductRepository } from "../repository/product";
-import { PaginationInput } from "@/electron/utils/pagination";
+import { PaginationInput, PaginationOutput } from "@/electron/utils/pagination";
 
-export type ProductListOutput = ProductEntity[];
+export type ProductListOutput = PaginationOutput<ProductEntity>;
 
 export class ProductListUsecase {
   constructor(private readonly productRepository: IProductRepository) {}

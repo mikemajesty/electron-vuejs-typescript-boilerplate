@@ -34,7 +34,7 @@ z.setErrorMap(zodI18nMap);
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width: 1100,
-    height: 670,
+    height: 800,
     autoHideMenuBar: true,
     icon: path.join(__dirname, "../../resources/icon.png"),
     webPreferences: {

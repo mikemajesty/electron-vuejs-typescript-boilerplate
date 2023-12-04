@@ -45,3 +45,13 @@ export default {
     </ul>
   </footer>
 </template>
+<style scoped>
+.columns {
+  margin-top: 0rem !important;
+  padding: 0rem !important;
+}
+
+.columns:last-child {
+  margin-bottom: 0rem !important;
+}
+</style>

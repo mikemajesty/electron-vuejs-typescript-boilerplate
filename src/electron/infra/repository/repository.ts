@@ -1,5 +1,6 @@
 import { Knex } from "knex";
 import { IRepository } from "./adapter";
+import { PaginationInput, PaginationOutput } from "@/electron/utils/pagination";
 
 export type RepositoryLoadType = {
   tableName: string;
@@ -59,5 +60,25 @@ export class Repository<T> implements IRepository<T> {
       .where(filter as Partial<T>)
       .select("*")
       .first() as T;
+  }
+
+  async paginate(input: PaginationInput): Promise<PaginationOutput<T>> {
+    const products = await this.parameters
+      .instance(this.parameters.tableName)
+      .paginate({
+        perPage: input.limit,
+        currentPage: input.page,
+      });
+
+    const count: { total: number } = await this.parameters
+      .instance(this.parameters.tableName)
+      .count("*", { as: "total" });
+
+    return {
+      docs: products.data,
+      page: products.pagination.currentPage,
+      limit: products.pagination.perPage,
+      total: count[0].total,
+    };
   }
 }
