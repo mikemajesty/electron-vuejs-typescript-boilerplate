@@ -38,6 +38,9 @@ export type PaginationInput = z.infer<typeof PaginationSchema> & SortInput;
 
 export type PaginationOutput<T> = z.infer<typeof PaginationSchema> & {
   total: number;
+  currentPage: number;
+  from: number;
+  to: number;
   docs: T[];
 };
 

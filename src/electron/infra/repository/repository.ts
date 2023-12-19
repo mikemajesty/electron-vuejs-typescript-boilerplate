@@ -78,7 +78,10 @@ export class Repository<T> implements IRepository<T> {
       docs: products.data,
       page: products.pagination.currentPage,
       limit: products.pagination.perPage,
+      currentPage: products.pagination.currentPage,
       total: count[0].total,
+      from: products.pagination.from,
+      to: products.pagination.to,
     };
   }
 }

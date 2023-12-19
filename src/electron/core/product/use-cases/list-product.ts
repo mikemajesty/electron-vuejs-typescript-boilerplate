@@ -8,6 +8,8 @@ export class ProductListUsecase {
   constructor(private readonly productRepository: IProductRepository) {}
 
   async execute(input: PaginationInput): Promise<ProductListOutput> {
-    return this.productRepository.paginate(input);
+    const products = await this.productRepository.paginate(input);
+
+    return products;
   }
 }

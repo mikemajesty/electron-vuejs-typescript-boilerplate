@@ -1,23 +1,57 @@
 <script lang="ts">
 import { AppWindow } from "../../types";
+import Pagination from "../pagination/pagination.vue";
 
 export default {
   name: "ListProduct",
-  components: {},
+  components: {
+    Pagination,
+  },
   data() {
     const products: { name: string; price: number; description: string }[] = [];
-    return { products, pagination: {} };
+    const pagination: {
+      page?: number;
+      limit?: number;
+      total?: number;
+      currentPage?: number;
+      from?: number;
+      to?: number;
+    } = {};
+    return { products, pagination };
   },
   async mounted() {
-    const products = await AppWindow.electron.ipcRenderer.invoke("listProduct");
+    const products = await AppWindow.electron.ipcRenderer.invoke(
+      "listProduct",
+      { limit: 10, page: 1, sort: { createdAt: -1 } },
+    );
     this.products = products.docs;
     this.pagination = {
       page: products.page,
       limit: products.limit,
       total: products.total,
+      currentPage: products.currentPage,
+      from: products.from,
+      to: products.to,
     };
   },
-  methods: {},
+  methods: {
+    async list(page?: number) {
+      const products = await AppWindow.electron.ipcRenderer.invoke(
+        "listProduct",
+        { limit: 10, page: page, sort: { createdAt: -1 } },
+      );
+
+      this.products = products.docs;
+      this.pagination = {
+        page: products.page as number,
+        limit: products.limit as number,
+        total: products.total,
+        currentPage: products.currentPage,
+        from: products.from,
+        to: products.to,
+      };
+    },
+  },
 };
 </script>
 
@@ -35,10 +69,7 @@ export default {
               <th>Descrição</th>
             </tr>
           </thead>
-          <tbody
-            v-for="product in products"
-            :key="product.name + product.description"
-          >
+          <tbody v-for="(product, index) in products" :key="index">
             <tr>
               <td>{{ product.name }}</td>
               <td>{{ product.price }}</td>
@@ -49,6 +80,11 @@ export default {
       </div>
     </div>
   </div>
+  <Pagination
+    :options="{ ...pagination }"
+    @paginate-next="list(Number(pagination?.page) + 1)"
+    @paginate-previous="list(Number(pagination?.page) - 1)"
+  ></Pagination>
 </template>
 
 <style scoped>
@@ -56,7 +92,8 @@ export default {
   padding-left: 1%;
   padding-right: 1%;
   padding-top: 1%;
-  padding-bottom: 1%;
+  padding-bottom: 0%;
+  margin-bottom: 0%;
 }
 table {
   width: 100%;

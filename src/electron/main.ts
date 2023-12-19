@@ -21,6 +21,8 @@ import { zodI18nMap } from "zod-i18n-map";
 import translation from "zod-i18n-map/locales/pt/zod.json";
 import { TranslationUtils } from "./utils/translation";
 import { SortEnum } from "./utils/sort";
+import { PaginationInput } from "./utils/pagination";
+import { ProductEntity } from "./core/product/entity/product";
 
 i18next.init({
   lng: "pt",
@@ -115,10 +117,17 @@ const registerProductEvents = () => {
     },
   );
 
-  ipcMain.handle("listProduct", (event: IpcMainInvokeEvent) => {
-    return productController.list(
-      { ...event, infra: { repository: new ProductRepository() } },
-      { limit: 10, page: 1, sort: { createdAt: SortEnum.desc } },
-    );
-  });
+  ipcMain.handle(
+    "listProduct",
+    (event: IpcMainInvokeEvent, input: PaginationInput) => {
+      return productController.list(
+        { ...event, infra: { repository: new ProductRepository() } },
+        {
+          limit: input?.limit || 10,
+          page: input?.page || 1,
+          sort: { createdAt: SortEnum.desc },
+        },
+      );
+    },
+  );
 };
