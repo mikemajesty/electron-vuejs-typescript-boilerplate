@@ -1,6 +1,7 @@
 import { Knex } from "knex";
 import { IRepository } from "./adapter";
 import { PaginationInput, PaginationOutput } from "@/electron/utils/pagination";
+import { createRawFilter } from "@/electron/utils/search";
 
 export type RepositoryLoadType = {
   tableName: string;
@@ -62,13 +63,10 @@ export class Repository<T> implements IRepository<T> {
       .first() as T;
   }
 
-  async paginate(input: PaginationInput): Promise<PaginationOutput<T>> {
-    const products = await this.parameters
-      .instance(this.parameters.tableName)
-      .paginate({
-        perPage: input.limit,
-        currentPage: input.page,
-      });
+  async paginate(input: PaginationInput<T>): Promise<PaginationOutput<T>> {
+    const rawWhere = createRawFilter(input.search as { [key: string]: string });
+
+    const products = await this.createPaginate(input, rawWhere);
 
     const count: { total: number } = await this.parameters
       .instance(this.parameters.tableName)
@@ -83,5 +81,25 @@ export class Repository<T> implements IRepository<T> {
       from: products.pagination.from,
       to: products.pagination.to,
     };
+  }
+
+  private async createPaginate(
+    input: PaginationInput<T>,
+    where: string | null,
+  ) {
+    if (where) {
+      return await this.parameters
+        .instance(this.parameters.tableName)
+        .whereRaw(where)
+        .paginate({
+          perPage: input.limit,
+          currentPage: input.page,
+        });
+    }
+
+    return await this.parameters.instance(this.parameters.tableName).paginate({
+      perPage: input.limit,
+      currentPage: input.page,
+    });
   }
 }

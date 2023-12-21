@@ -24,6 +24,7 @@ import {
 } from "@/electron/utils/electron";
 import { IProductRepository } from "@/electron/core/product/repository/product";
 import { PaginationInput } from "@/electron/utils/pagination";
+import { ProductEntity } from "@/electron/core/product/entity/product";
 
 export class ProductController {
   async create(
@@ -71,7 +72,7 @@ export class ProductController {
 
   async list(
     event: ElectronMainInvokeEventType,
-    input: PaginationInput,
+    input: PaginationInput<ProductEntity>,
   ): Promise<ProductListOutput> {
     const response = await new ProductListUsecase(
       event.infra.repository as IProductRepository,

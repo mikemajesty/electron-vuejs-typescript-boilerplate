@@ -7,7 +7,9 @@ export type ProductListOutput = PaginationOutput<ProductEntity>;
 export class ProductListUsecase {
   constructor(private readonly productRepository: IProductRepository) {}
 
-  async execute(input: PaginationInput): Promise<ProductListOutput> {
+  async execute(
+    input: PaginationInput<ProductEntity>,
+  ): Promise<ProductListOutput> {
     const products = await this.productRepository.paginate(input);
 
     return products;

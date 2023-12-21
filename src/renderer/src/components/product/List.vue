@@ -1,11 +1,13 @@
 <script lang="ts">
 import { AppWindow } from "../../types";
 import Pagination from "../pagination/pagination.vue";
+import Search from "../input/Search.vue";
 
 export default {
   name: "ListProduct",
   components: {
     Pagination,
+    Search,
   },
   data() {
     const products: { name: string; price: number; description: string }[] = [];
@@ -35,10 +37,10 @@ export default {
     };
   },
   methods: {
-    async list(page?: number) {
+    async list(page?: number, search?: string) {
       const products = await AppWindow.electron.ipcRenderer.invoke(
         "listProduct",
-        { limit: 10, page: page, sort: { createdAt: -1 } },
+        { limit: 10, page: page, sort: { createdAt: -1 }, search },
       );
 
       this.products = products.docs;
@@ -58,7 +60,8 @@ export default {
 <template>
   <div class="listProduct">
     <h1 class="title is-1">Lista de Produtos</h1>
-    <div class="title is-5">{{ pagination }}</div>
+    <Search></Search>
+    <!-- <div class="title is-5">{{ pagination }}</div> -->
     <div class="columns">
       <div class="column is-bordered">
         <table class="table is-bordered">

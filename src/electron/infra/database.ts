@@ -10,12 +10,14 @@ export class DatabaseService {
 
   private connect = (): Knex => {
     if (!this.instance) {
-      const config = {
+      const config: knex.Knex.Config = {
         client: "sqlite3",
         connection: {
           filename: "database.db",
         },
         useNullAsDefault: true,
+        log: console,
+        debug: true,
       };
       const db2 = knex(config);
 

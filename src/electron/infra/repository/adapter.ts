@@ -11,5 +11,5 @@ export abstract class IRepository<T> {
 
   abstract findOne(filter?: Partial<T>): Promise<T>;
 
-  abstract paginate(input: PaginationInput): Promise<PaginationOutput<T>>;
+  abstract paginate(input: PaginationInput<T>): Promise<PaginationOutput<T>>;
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Versions from "./components/footer/Versions.vue";
-import CreateProduct from "./components/product/Create.vue";
+// import CreateProduct from "./components/product/Create.vue";
 import ListProduct from "./components/product/List.vue";
 import Menu from "./components/Menu.vue";
 </script>

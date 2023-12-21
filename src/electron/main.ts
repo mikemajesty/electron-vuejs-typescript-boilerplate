@@ -119,12 +119,13 @@ const registerProductEvents = () => {
 
   ipcMain.handle(
     "listProduct",
-    (event: IpcMainInvokeEvent, input: PaginationInput) => {
+    (event: IpcMainInvokeEvent, input: PaginationInput<ProductEntity>) => {
       return productController.list(
         { ...event, infra: { repository: new ProductRepository() } },
         {
           limit: input?.limit || 10,
           page: input?.page || 1,
+          search: input.search,
           sort: { createdAt: SortEnum.desc },
         },
       );

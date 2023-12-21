@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { SortInput } from "./sort";
+import { SearchInput } from "./search";
 
 const maxLimit = (limit: number) => (limit > 100 ? 100 : limit);
 
@@ -34,7 +35,9 @@ export const PaginationSchema = z
     message: "invalidInteger",
   });
 
-export type PaginationInput = z.infer<typeof PaginationSchema> & SortInput;
+export type PaginationInput<T> = z.infer<typeof PaginationSchema> &
+  SortInput &
+  SearchInput<Partial<T>>;
 
 export type PaginationOutput<T> = z.infer<typeof PaginationSchema> & {
   total: number;
